@@ -4,30 +4,115 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <title>Svix Dashboard</title>
   <link rel="stylesheet" href="css/style.css">
-  <meta name="description" content="">
-
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <meta property="og:image:alt" content="">
+  <meta name="description" content="Svix webhook management dashboard">
 
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon.png">
-
   <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#fafafa">
+  <meta name="theme-color" content="#0f172a">
 </head>
 
 <body>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script src="js/app.js"></script>
+  <header class="site-header">
+    <div class="container">
+      <h1>Svix Dashboard</h1>
+    </div>
+  </header>
 
+  <main class="container">
+
+    <!-- Config Panel -->
+    <section id="config-panel" class="panel">
+      <div class="panel-connected-indicator">
+        <span class="status-dot"></span>
+        <span class="status-label">Connected</span>
+        <button id="disconnect-btn" class="btn btn-sm btn-ghost">Disconnect</button>
+      </div>
+
+      <form id="config-form" class="config-form">
+        <h2>Connect to Svix</h2>
+        <div class="form-row">
+          <label for="api-key">API Key</label>
+          <input id="api-key" type="password" placeholder="sk_..." autocomplete="off" required />
+        </div>
+        <div class="form-row">
+          <label for="region">Region</label>
+          <select id="region">
+            <option value="eu">EU (api.eu.svix.com)</option>
+            <option value="us">US (api.svix.com)</option>
+            <option value="in">IN (api.in.svix.com)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Connect</button>
+      </form>
+    </section>
+
+    <!-- Apps Section -->
+    <section id="apps-section" class="panel">
+      <div class="section-header">
+        <h2>Applications</h2>
+        <button class="btn btn-sm btn-ghost" id="refresh-btn" onclick="location.reload()">Refresh</button>
+      </div>
+
+      <div id="apps-list"></div>
+
+      <details class="create-form-toggle">
+        <summary>+ Create new app</summary>
+        <form id="create-app-form" class="inline-form">
+          <div class="form-row">
+            <label for="new-app-name">Name <span class="required">*</span></label>
+            <input id="new-app-name" type="text" placeholder="My App" required />
+          </div>
+          <div class="form-row">
+            <label for="new-app-uid">UID <span class="optional">(optional)</span></label>
+            <input id="new-app-uid" type="text" placeholder="unique-id" />
+          </div>
+          <button type="submit" class="btn btn-primary">Create App</button>
+        </form>
+      </details>
+    </section>
+
+    <!-- App Detail -->
+    <section id="app-detail" class="panel hidden">
+      <h2>App: <span id="detail-app-name"></span></h2>
+
+      <div class="detail-grid">
+        <!-- Endpoints -->
+        <div class="detail-col">
+          <h3>Endpoints</h3>
+          <div id="endpoints-list"></div>
+
+          <details class="create-form-toggle">
+            <summary>+ Add endpoint</summary>
+            <form id="add-endpoint-form" class="inline-form">
+              <div class="form-row">
+                <label for="ep-url">URL <span class="required">*</span></label>
+                <input id="ep-url" type="url" placeholder="https://example.com/webhook" required />
+              </div>
+              <div class="form-row">
+                <label for="ep-desc">Description</label>
+                <input id="ep-desc" type="text" placeholder="My endpoint" />
+              </div>
+              <button type="submit" class="btn btn-primary">Add Endpoint</button>
+            </form>
+          </details>
+        </div>
+
+        <!-- Messages -->
+        <div class="detail-col">
+          <h3>Recent Messages</h3>
+          <div id="messages-list"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/app.js" type="module"></script>
 </body>
 
 </html>
