@@ -1,12 +1,46 @@
-The command you provided is a `curl` command for making an HTTP POST request to create a new app named "Oneseco-IO" using the Svix API. Here's a breakdown of the command:
+# Svix Dashboard
 
-- **URL**: `https://api.eu.svix.com/api/v1/app/` - This is the endpoint where the request is sent.
-- **Headers**:
-  - `Accept: application/json`: Indicates that the client expects JSON in the response.
-  - `Content-Type: application/json`: Specifies that the data sent to the server is in JSON format.
-  - `Authorization: Bearer ••••••••••••••••••••••••••••`: This is a placeholder for the actual API token. Replace the `•••••••••••••••••••••••••••` with the actual token to authenticate the request.
-- **Data**: `-d '{"name": "Oneseco-IO"}'` - The payload of the request, specifying the name of the app to be created.
+A lightweight client-side dashboard for managing [Svix](https://www.svix.com/) webhook applications. Built with vanilla JavaScript and Webpack 5.
 
-Before executing this command, ensure that you replace the placeholder in the `Authorization` header with your actual Bearer token. This token is necessary for authenticating with the Svix API.
+## Features
 
-If you need further assistance or encounter any issues, feel free to ask!
+- Connect using any Svix API key (US, EU, or IN region)
+- Create, view, and delete applications
+- Add and remove webhook endpoints per application
+- Inspect recent messages per application
+- API key stored locally in `localStorage` — no backend required
+
+## Getting Started
+
+```bash
+npm install
+npm start
+```
+
+The dev server opens automatically. Enter your Svix API key in the dashboard to connect.
+
+## Building for Production
+
+```bash
+npm run build
+```
+
+Output is written to `dist/`. Serve that directory with any static file host.
+
+## Configuration
+
+| Setting | Where |
+|---------|-------|
+| API key | Entered in the dashboard UI, persisted in `localStorage` |
+| Region | Selected in the dashboard UI (US / EU / IN) |
+
+## Tech Stack
+
+- Vanilla HTML / CSS / JavaScript — no UI framework
+- [Webpack 5](https://webpack.js.org/) for bundling and dev server
+- [HTML5 Boilerplate](https://html5boilerplate.com/) as the CSS/HTML foundation
+
+## Svix API Reference
+
+- [Svix API Docs](https://api.svix.com/docs)
+- [Svix Dashboard](https://dashboard.svix.com/)

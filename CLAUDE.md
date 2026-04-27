@@ -1,140 +1,90 @@
 # CLAUDE.md
 
 This file provides guidance for AI assistants working with this codebase.
+For the user-facing project overview and setup instructions, see `README.md`.
 
-## Project Overview
+## Purpose of this file
 
-This is a static frontend web application built on **HTML5 Boilerplate**, configured with **Webpack 5** for asset bundling and a development server. The project is in early-stage development (v0.0.1) and uses vanilla HTML, CSS, and JavaScript — no UI framework.
-
-The README references the [Svix](https://www.svix.com/) webhook API, suggesting this project is intended to integrate with or demonstrate Svix webhook functionality.
+CLAUDE.md is for AI assistants. It describes *how to work in this repo* — conventions, entry points, and task guidance. It intentionally avoids duplicating content from `README.md` or restating details that live authoritatively in config files.
 
 ## Repository Structure
 
 ```
 SVIX/
-├── index.html              # Main HTML entry point (HTML5 Boilerplate template)
+├── index.html              # Main HTML entry point
 ├── 404.html                # Custom 404 error page
 ├── css/
-│   └── style.css           # Base stylesheet (HTML5 Boilerplate styles)
+│   └── style.css           # Base stylesheet (HTML5 Boilerplate + custom styles)
 ├── js/
-│   ├── app.js              # Main JavaScript entry point (currently empty)
-│   └── vendor/             # Third-party JS libraries (committed directly)
+│   ├── app.js              # Main application entry point
+│   ├── svix-client.js      # Svix REST API client module
+│   └── vendor/             # Third-party JS libraries (committed directly, not npm)
 ├── img/                    # Image assets
-├── favicon.ico             # Favicon (ICO format)
-├── icon.svg                # SVG icon
-├── icon.png                # PNG icon (192x192, for Apple touch)
-├── site.webmanifest        # PWA web app manifest
-├── robots.txt              # Search engine crawler rules
-├── package.json            # Node.js project metadata and npm scripts
-├── webpack.common.js       # Shared Webpack configuration
-├── webpack.config.dev.js   # Development Webpack config (dev server + source maps)
-├── webpack.config.prod.js  # Production Webpack config (minification + asset copy)
-├── .editorconfig           # Editor formatting rules
-├── .gitattributes          # Git line-ending normalization rules
-├── .gitignore              # Ignores: node_modules/, dist/, .cache/
-└── LICENSE.txt             # MIT License (from HTML5 Boilerplate)
+├── favicon.ico / icon.svg / icon.png  # Icons
+├── site.webmanifest        # PWA manifest
+├── robots.txt              # Crawler rules
+├── package.json            # npm scripts and devDependencies
+├── webpack.common.js       # Shared Webpack config (entry + output)
+├── webpack.config.dev.js   # Dev config (source maps, HMR) — source of truth for dev server
+├── webpack.config.prod.js  # Prod config (minification, asset copy) — source of truth for build output
+├── .editorconfig           # Formatting rules (indent, charset, line endings)
+├── .gitattributes          # Line-ending normalization
+└── .gitignore              # node_modules/, dist/, .cache/
 ```
+
+> **Build system details** (dev server port, output paths, copied assets) live in the webpack config files above. Read those files directly rather than relying on any description here.
 
 ## Development Commands
 
+See `package.json` for the canonical script definitions. Quick reference:
+
 ```bash
-# Install dependencies (required once after cloning)
-npm install
-
-# Start development server (opens browser automatically, hot reload enabled)
-npm start
-
-# Build for production (outputs to dist/)
-npm run build
-
-# Tests (not yet configured — exits with error)
-npm test
+npm install      # Install devDependencies (run once after cloning)
+npm start        # Dev server with live reload
+npm run build    # Production build → dist/
+npm test         # Not yet configured
 ```
-
-## Build System
-
-**Bundler**: Webpack 5
-
-The Webpack config is split into three files:
-
-| File | Purpose |
-|------|---------|
-| `webpack.common.js` | Shared: entry point `./js/app.js`, output to `dist/js/app.js` |
-| `webpack.config.dev.js` | Development: inline source maps, live reload, HMR, static files served from `./` |
-| `webpack.config.prod.js` | Production: minification, HtmlWebpackPlugin, CopyPlugin for static assets |
-
-**Build output**: `dist/` directory (gitignored). Production build copies:
-- `img/` → `dist/img/`
-- `css/` → `dist/css/`
-- `js/vendor/` → `dist/js/vendor/`
-- Icons, 404.html, site.webmanifest, robots.txt → `dist/`
-
-**Dev server**: Default Webpack Dev Server port (typically `http://localhost:8080`). Auto-opens browser on `npm start`.
 
 ## Code Conventions
 
-Enforced via `.editorconfig` — all editors and AI assistants should follow these:
+Enforced via `.editorconfig`:
 
 - **Indentation**: 2 spaces (no tabs)
 - **Encoding**: UTF-8
-- **Line endings**: LF (Unix-style, enforced across all platforms via `.gitattributes`)
+- **Line endings**: LF (Unix-style)
 - **Trailing whitespace**: Always trimmed
-- **Final newline**: Required on all files
+- **Final newline**: Required
 
-**File naming**: kebab-case for filenames (e.g., `style.css`, `app.js`, `webpack.config.dev.js`).
+**File naming**: kebab-case (e.g. `svix-client.js`, `webpack.config.dev.js`).
 
-**JavaScript**: Standard JS conventions. Vendor/third-party libraries go in `js/vendor/` and are committed directly (not npm-managed).
+**JavaScript**: ES modules (`import`/`export`). Vendor libraries that don't support ES modules go in `js/vendor/` and are loaded via `<script>` tags in `index.html`.
 
 ## Key Entry Points
 
-- **HTML**: `index.html` — the root page, loads `css/style.css` and `js/app.js`
-- **JavaScript**: `js/app.js` — currently empty; all application logic starts here
-- **Styles**: `css/style.css` — HTML5 Boilerplate base; extend this file for custom styles
-
-## Dependencies
-
-**No runtime dependencies.** All dependencies are `devDependencies`:
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `webpack` | ^5.94.0 | Module bundler |
-| `webpack-cli` | ^5.1.4 | Webpack command-line interface |
-| `webpack-dev-server` | ^5.0.4 | Local dev server with live reload |
-| `webpack-merge` | ^6.0.1 | Merges webpack config objects |
-| `html-webpack-plugin` | ^5.6.0 | Injects bundled script into HTML template |
-| `copy-webpack-plugin` | ^11.0.0 | Copies static assets to `dist/` on build |
+- **HTML**: `index.html` — root page and HtmlWebpackPlugin template for production
+- **JavaScript**: `js/app.js` — application bootstrap; imports from `js/svix-client.js`
+- **API client**: `js/svix-client.js` — `SvixClient` class; all Svix API calls go here
+- **Styles**: `css/style.css` — H5BP resets at top, custom styles below the `Author's custom styles` marker
 
 ## Testing
 
-No test framework is configured. `npm test` currently exits with an error. When adding tests:
-- Consider **Vitest** or **Jest** for unit tests
-- Add test files alongside source files or in a dedicated `tests/` directory
+No test framework is configured. When adding tests:
+- Consider **Vitest** or **Jest**
+- Add test files alongside source files or in a `tests/` directory
 - Update the `"test"` script in `package.json`
 
 ## CI/CD
 
-No GitHub Actions or CI/CD pipelines are configured. There is no `.github/workflows/` directory.
-
-## What Does Not Exist (yet)
-
-- No backend / server-side code
-- No database
-- No authentication logic
-- No API client code (the README documents the Svix API but no integration exists)
-- No test suite
-- No linter (ESLint/Prettier not configured)
-- No TypeScript
+No pipelines configured. No `.github/workflows/` directory exists.
 
 ## Common Tasks for AI Assistants
 
-**Adding JavaScript functionality**: Write code in `js/app.js`. For large features, create new modules in `js/` and import them from `app.js`.
+**Adding a new Svix API method**: Add it to `SvixClient` in `js/svix-client.js`, then call it from `js/app.js`.
 
-**Adding styles**: Edit `css/style.css`. The existing file uses HTML5 Boilerplate resets; add custom rules below the existing content.
+**Adding a new UI section**: Add markup to `index.html`, styles to the custom section of `css/style.css`, and wire up DOM logic in `js/app.js`.
 
-**Adding third-party libraries (without npm)**: Place the library file in `js/vendor/` and include a `<script>` tag in `index.html`, or import it in `app.js` if it supports ES modules.
+**Adding a third-party library via npm**: Install as a `devDependency`. Import in `app.js`; Webpack will bundle it.
 
-**Adding third-party libraries (via npm)**: Install as a `devDependency` (if build-time only) or `dependency`. Import in `app.js`; Webpack will bundle it.
+**Adding a third-party library without npm**: Place the file in `js/vendor/`, add a `<script>` tag in `index.html` (or `import` it if it supports ES modules).
 
-**Modifying the HTML shell**: Edit `index.html`. The production build uses it as a template for `HtmlWebpackPlugin`.
-
-**Production build verification**: Run `npm run build`, then inspect the `dist/` directory to confirm assets are copied correctly.
+**Verifying a production build**: Run `npm run build`, then check the `dist/` directory. The exact list of copied assets is defined in `webpack.config.prod.js`.
