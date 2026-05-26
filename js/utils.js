@@ -1,4 +1,5 @@
 export const STORAGE_KEY = 'svix_config';
+export const ANTHROPIC_KEY = 'anthropic_key';
 
 export function escHtml(str) {
   return String(str ?? '')

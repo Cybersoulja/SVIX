@@ -87,6 +87,9 @@ export class SvixClient {
   listAttemptsByMsg(appId, msgId, { limit = 20 } = {}) {
     return this.request('GET', `/app/${appId}/attempt/msg/${msgId}/?limit=${limit}`);
   }
+  listAttemptsByEndpoint(appId, endpointId, { limit = 50 } = {}) {
+    return this.request('GET', `/app/${appId}/attempt/endpoint/${endpointId}/?limit=${limit}`);
+  }
   resendMessage(appId, msgId, endpointId) {
     return this.request('POST', `/app/${appId}/msg/${msgId}/endpoint/${endpointId}/resend/`, {});
   }

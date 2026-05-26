@@ -2,6 +2,7 @@ import { escHtml, formatDate, setLoading } from '../utils.js';
 import { showToast } from '../toast.js';
 import { openModal, closeModal } from '../modal.js';
 import { navigate } from '../router.js';
+import { initAnalyzer, closeAnalyzer, analyzeEndpoint } from './endpoint-analyzer.js';
 
 let _client = null;
 let _appId = null;
@@ -47,11 +48,13 @@ export function mountAppDetail(client, appId) {
   newPrev.addEventListener('click', handleMsgPrev);
   newNext.addEventListener('click', handleMsgNext);
 
+  initAnalyzer(client, appId);
   switchTab('endpoints');
   loadMessages();
 }
 
 export function unmountAppDetail() {
+  closeAnalyzer();
   document.getElementById('view-app-detail').hidden = true;
   _client = null;
   _appId = null;
@@ -99,11 +102,13 @@ async function loadEndpoints() {
       <td><span class="badge ${enabled ? 'badge--success' : 'badge--pending'}">${enabled ? 'enabled' : 'disabled'}</span></td>
       <td>${formatDate(ep.createdAt)}</td>
       <td class="col-actions">
+        <button class="btn btn-sm btn-ai" data-action="analyze" title="Analyze with Claude AI">AI</button>
         <button class="btn btn-sm btn-ghost" data-action="secret" title="View signing secret">Secret</button>
         <button class="btn btn-sm btn-ghost" data-action="rotate" title="Rotate signing secret">Rotate</button>
         <button class="btn btn-sm btn-danger" data-action="delete">Delete</button>
       </td>
     `;
+    tr.querySelector('[data-action="analyze"]').addEventListener('click', () => analyzeEndpoint(ep));
     tr.querySelector('[data-action="secret"]').addEventListener('click', () => handleShowSecret(ep.id));
     tr.querySelector('[data-action="rotate"]').addEventListener('click', () => handleRotateSecret(ep.id));
     tr.querySelector('[data-action="delete"]').addEventListener('click', () => handleDeleteEndpoint(ep.id, ep.url, tr));

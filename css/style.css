@@ -684,3 +684,131 @@ small.hint, .hint {
   .header-inner { padding: 0 1rem; }
   .container { padding: 0 1rem; }
 }
+
+/* --- AI Analyze button --- */
+.btn-ai {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.btn-ai:hover { background: linear-gradient(135deg, #4f46e5, #7c3aed); }
+.btn-ai:disabled { opacity: 0.5; }
+
+/* --- Analyzer drawer --- */
+.analyzer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  max-width: 100vw;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.4);
+}
+
+.analyzer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.analyzer-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.analyzer-badge {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.analyzer-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.analyzer-endpoint-info {
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.analyzer-ep-url {
+  font-size: 0.8rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.analyzer-ep-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.analyzer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem;
+}
+
+.analyzer-status {
+  color: var(--text-faint);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.analyzer-output {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.analyzer-output strong {
+  color: var(--text);
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.analyzer-output strong:first-child { margin-top: 0; }
+
+.analyzer-bullet {
+  display: block;
+  padding-left: 1rem;
+  position: relative;
+  margin: 0.2rem 0;
+}
+
+.analyzer-bullet::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .analyzer-panel { width: 100vw; top: 3.5rem; }
+}
