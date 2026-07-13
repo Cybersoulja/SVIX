@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <title>Svix App Creator</title>
   <link rel="stylesheet" href="css/style.css">
-  <meta name="description" content="">
+  <meta name="description" content="A tool to create Svix Apps">
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
+  <meta property="og:title" content="Svix App Creator">
+  <meta property="og:type" content="website">
   <meta property="og:url" content="">
   <meta property="og:image" content="">
   <meta property="og:image:alt" content="">
@@ -25,7 +25,30 @@
 <body>
 
   <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
+  <div class="container">
+    <h1>Svix App Creator</h1>
+    <p>Use this tool to create a new App in your Svix account.</p>
+
+    <form id="svix-form">
+      <div class="form-group">
+        <label for="api-token">Svix API Token (Bearer)</label>
+        <input type="password" id="api-token" name="api-token" required placeholder="Paste your API token here">
+      </div>
+
+      <div class="form-group">
+        <label for="app-name">App Name</label>
+        <input type="text" id="app-name" name="app-name" required placeholder="e.g. Oneseco-IO">
+      </div>
+
+      <button type="submit">Create App</button>
+    </form>
+
+    <div id="result-container" class="hidden">
+      <h2>Result</h2>
+      <pre id="result-content"></pre>
+    </div>
+  </div>
+
   <script src="js/app.js"></script>
 
 </body>

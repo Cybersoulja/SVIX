@@ -1,12 +1,10 @@
 {
-  "name": " ",
+  "name": "oneseco-io",
   "version": "0.0.1",
-  "description": "",
+  "description": "Svix App Creator",
   "private": true,
-  "keywords": [
-    ""
-  ],
-  "license": "",
+  "keywords": [],
+  "license": "MIT",
   "author": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
