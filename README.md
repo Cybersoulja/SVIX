@@ -1,12 +1,32 @@
-The command you provided is a `curl` command for making an HTTP POST request to create a new app named "Oneseco-IO" using the Svix API. Here's a breakdown of the command:
+# React + TypeScript + Vite
 
-- **URL**: `https://api.eu.svix.com/api/v1/app/` - This is the endpoint where the request is sent.
-- **Headers**:
-  - `Accept: application/json`: Indicates that the client expects JSON in the response.
-  - `Content-Type: application/json`: Specifies that the data sent to the server is in JSON format.
-  - `Authorization: Bearer ••••••••••••••••••••••••••••`: This is a placeholder for the actual API token. Replace the `•••••••••••••••••••••••••••` with the actual token to authenticate the request.
-- **Data**: `-d '{"name": "Oneseco-IO"}'` - The payload of the request, specifying the name of the app to be created.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-Before executing this command, ensure that you replace the placeholder in the `Authorization` header with your actual Bearer token. This token is necessary for authenticating with the Svix API.
+Currently, two official plugins are available:
 
-If you need further assistance or encounter any issues, feel free to ask!
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the Oxlint configuration
+
+If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "options": {
+    "typeAware": true
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+```
+
+See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
